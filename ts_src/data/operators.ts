@@ -1,7 +1,6 @@
-import { Dataset, RenderFunction, ColorLoopperFunction, RenderableDataset } from "./structs";
-import { ERRORS, WARNINGS } from "./errorHandlers";
-import { generateSVG } from "./domOperations";
-import { percentage } from "./utils";
+import { RenderFunction, ColorLoopperFunction, Dataset } from "../structs";
+import { getLineDataset } from "./datasets";
+import { ERRORS, WARNINGS } from "../errorHandlers";
 
 export function getDatasetInserter(render: RenderFunction, colorLoopper: ColorLoopperFunction) {
 	return function insertDataset(dataset: Dataset) {
@@ -33,16 +32,4 @@ export function getDatasetRemover(render: RenderFunction, colorLoopper: ColorLoo
 			return false;
 		}
 	};
-}
-
-function getLineDataset({ id, options, values }: Dataset, color: string) {
-	const datasetSVG = generateSVG("polyline",
-		[ "fill", "none" ],
-		[ "stroke-width", ".6" ],
-		[ "class", id ],
-		[ "stroke", options.color ? options.color : color ],
-		[ "points", values.map((val, idx) => `${percentage(idx, values.length - 1)} ${100 - percentage(val, 100)}`).join() ]
-	);
-	datasetSVG.onmouseover = console.log;
-	return { datasetSVG, id, options: { ...options, color }};
 }
