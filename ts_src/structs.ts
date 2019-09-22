@@ -4,9 +4,9 @@ export interface MiniChartInstance {
 	removeDataset: DatasetRemovalFunction;
 }
 
-export type RenderFunction = (datasetSVG?: SVGElement) => Element;
+export type RenderFunction = (renderableDataset?: RenderableDataset) => HTMLElement;
 
-export type DatasetInsertionFunction = (ds: Dataset) => Element;
+export type DatasetInsertionFunction = (ds: Dataset) => HTMLElement;
 
 export interface Dataset {
 	id: string;
@@ -15,6 +15,16 @@ export interface Dataset {
 		type: DatasetType;
 		className?: string;
 		color?: string;
+	};
+}
+
+export interface RenderableDataset {
+	id: string;
+	datasetSVG: SVGElement;
+	options: {
+		type: DatasetType;
+		color: string;
+		className?: string;
 	};
 }
 
