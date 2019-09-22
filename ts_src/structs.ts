@@ -26,7 +26,10 @@ export interface RenderableDataset {
 		color: string;
 		className?: string;
 	};
+	hoverFunction: HoverFunction;
 }
+
+export type HoverFunction = (e: MouseEvent) => void;
 
 export type DatasetType = "bar" | "line";
 

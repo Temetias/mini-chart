@@ -3,14 +3,14 @@ import { getLineDataset } from "./datasets";
 import { ERRORS, WARNINGS } from "../errorHandlers";
 
 export function getDatasetInserter(render: RenderFunction, colorLoopper: ColorLoopperFunction) {
-	return function insertDataset(dataset: Dataset) {
+	return function insertDataset(dataset: Dataset): HTMLElement {
 		let renderableDataset;
 		switch (dataset.options.type) {
 			case "line":
-			renderableDataset = getLineDataset(dataset, colorLoopper());
+				renderableDataset = getLineDataset(dataset, colorLoopper());
 				break;
 			case "bar":
-				//svg = getBarDataset(dataset);
+				//renderableDataset = getBarDataset(dataset);
 				break;
 			default:
 				ERRORS.unknownDatasetType(dataset.options.type);
@@ -20,7 +20,7 @@ export function getDatasetInserter(render: RenderFunction, colorLoopper: ColorLo
 }
 
 export function getDatasetRemover(render: RenderFunction, colorLoopper: ColorLoopperFunction) {
-	return function removeDataset(id: Dataset["id"]) {
+	return function removeDataset(id: Dataset["id"]): boolean {
 		const el = render();
 		const queriedElements = el.getElementsByClassName(id);
 		if (queriedElements.length) {

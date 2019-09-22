@@ -9,7 +9,7 @@ export function getElementByClassOrId(selector: string) {
 }
 
 export function getInfiniteLoopper<T>(arr: T[]) {
-	let infiniteIndex = -1;
+	let infiniteIndex = -1; // TODO(Teemu): Avoid wrapping over a mutating value.
 	return function loopper(forwards: boolean = true) {
 		infiniteIndex = forwards ? ++infiniteIndex : --infiniteIndex;
 		if (infiniteIndex < 0) {

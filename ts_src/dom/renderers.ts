@@ -41,7 +41,7 @@ export function getRenderer({ selector, removeGrid, axis }: MiniChartConfig, uid
 	}
 }
 
-function renderGrid(svg: SVGElement, yTicks = DEFAULT_TICKS, xTicks = DEFAULT_TICKS ) {
+function renderGrid(svg: SVGElement, yTicks = DEFAULT_TICKS, xTicks = DEFAULT_TICKS) {
 	const grid: [SVGElement[], SVGElement[]] = [[], []];
 	const defaultAttrs: [string, string][] = [
 		[ "class", "grid-line" ],
