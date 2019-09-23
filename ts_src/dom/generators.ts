@@ -8,7 +8,7 @@ export function generateSVG(el: string, ...attrs: [string, string][]) {
 	return svg;
 }
 
-export function generateLegendElement({ options, id, hoverFunction }: RenderableDataset) {
+export function generateLegendElement(options: RenderableDataset["options"], id: RenderableDataset["id"]) {
 	const root = generateElement("div",
 		[ "class", id ],
 		[ "style", "display:flex;" ],
@@ -20,7 +20,6 @@ export function generateLegendElement({ options, id, hoverFunction }: Renderable
 	span.textContent = id;
 	root.appendChild(box);
 	root.appendChild(span);
-	root.onmouseover = hoverFunction;
 	return root;
 }
 

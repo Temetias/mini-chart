@@ -32,10 +32,16 @@ export interface RenderableDataset {
 		color: string;
 		className?: string;
 	};
-	hoverFunction: HoverFunction;
+	hoverFunctions: HoverFunctionBundle;
+	legendEl: HTMLElement;
 }
 
 export type HoverFunction = (e: MouseEvent) => void;
+
+export interface HoverFunctionBundle {
+	onEnter: HoverFunction;
+	onLeave: HoverFunction;
+}
 
 export type DatasetType = "bar" | "line";
 

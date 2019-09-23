@@ -7,7 +7,7 @@ export function getDatasetInserter(render: RenderFunction, colorLoopper: ColorLo
 		let renderableDataset;
 		switch (dataset.options.type) {
 			case "line":
-				renderableDataset = getLineDataset(dataset, colorLoopper());
+				renderableDataset = getLineDataset(dataset, colorLoopper(), render());
 				break;
 			case "bar":
 				//renderableDataset = getBarDataset(dataset);
