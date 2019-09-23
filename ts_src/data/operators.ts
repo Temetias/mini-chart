@@ -1,8 +1,8 @@
-import { RenderFunction, ColorLoopperFunction, Dataset } from "../structs";
+import { RenderFunction, ColorLoopperFunction, Dataset, DatasetInsertionFunction, DatasetRemovalFunction } from "../structs";
 import { getLineDataset } from "./datasets";
 import { ERRORS, WARNINGS } from "../errorHandlers";
 
-export function getDatasetInserter(render: RenderFunction, colorLoopper: ColorLoopperFunction) {
+export function getDatasetInserter(render: RenderFunction, colorLoopper: ColorLoopperFunction): DatasetInsertionFunction {
 	return function insertDataset(dataset: Dataset) {
 		let renderableDataset;
 		switch (dataset.options.type) {
@@ -19,7 +19,7 @@ export function getDatasetInserter(render: RenderFunction, colorLoopper: ColorLo
 	};
 }
 
-export function getDatasetRemover(render: RenderFunction, colorLoopper: ColorLoopperFunction) {
+export function getDatasetRemover(render: RenderFunction, colorLoopper: ColorLoopperFunction): DatasetRemovalFunction {
 	return function removeDataset(id: Dataset["id"]): boolean {
 		const { chartEl, legendEl } = render();
 		const queriedElements = [ ...chartEl.getElementsByClassName(id), ...legendEl.getElementsByClassName(id) ];

@@ -1,8 +1,8 @@
-import { Dataset, HoverFunction } from "../structs";
+import { Dataset, HoverFunction, RenderableDataset } from "../structs";
 import { percentage } from "../utils";
 import { generateSVG } from "../dom/generators";
 
-export function getLineDataset({ id, options, values }: Dataset, color: string) {
+export function getLineDataset({ id, options, values }: Dataset, color: string): RenderableDataset {
 	const datasetSVG = generateSVG("polyline",
 		[ "fill", "none" ],
 		[ "stroke-width", ".6" ],
@@ -16,7 +16,7 @@ export function getLineDataset({ id, options, values }: Dataset, color: string) 
 }
 
 function getHoverFunction(id: Dataset["id"]): HoverFunction {
-	return function hover(e: MouseEvent): void {
+	return function hover(e: MouseEvent) {
 		console.log(id, e);
 	}
 }
