@@ -3,7 +3,7 @@ import { getLineDataset } from "./datasets";
 import { ERRORS, WARNINGS } from "../errorHandlers";
 
 export function getDatasetInserter(render: RenderFunction, colorLoopper: ColorLoopperFunction) {
-	return function insertDataset(dataset: Dataset): HTMLElement {
+	return function insertDataset(dataset: Dataset) {
 		let renderableDataset;
 		switch (dataset.options.type) {
 			case "line":
@@ -21,8 +21,8 @@ export function getDatasetInserter(render: RenderFunction, colorLoopper: ColorLo
 
 export function getDatasetRemover(render: RenderFunction, colorLoopper: ColorLoopperFunction) {
 	return function removeDataset(id: Dataset["id"]): boolean {
-		const el = render();
-		const queriedElements = el.getElementsByClassName(id);
+		const { chartEl, legendEl } = render();
+		const queriedElements = [ ...chartEl.getElementsByClassName(id), ...legendEl.getElementsByClassName(id) ];
 		if (queriedElements.length) {
 			Array.from(queriedElements).forEach(el => el.remove());
 			colorLoopper(false);

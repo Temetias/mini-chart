@@ -20,3 +20,7 @@ export function getInfiniteLoopper<T>(arr: T[]) {
 		return arr[infiniteIndex];
 	}
 }
+
+export function getUid() {
+	return `${(Date.now() * Math.random()).toFixed(0)}`;
+}

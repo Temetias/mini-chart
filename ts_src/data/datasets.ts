@@ -2,7 +2,6 @@ import { Dataset, HoverFunction } from "../structs";
 import { percentage } from "../utils";
 import { generateSVG } from "../dom/generators";
 
-
 export function getLineDataset({ id, options, values }: Dataset, color: string) {
 	const datasetSVG = generateSVG("polyline",
 		[ "fill", "none" ],
