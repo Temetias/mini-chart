@@ -3,6 +3,7 @@ import { percentage } from "../utils";
 import { generateSVG, generateLegendElement } from "../dom/generators";
 
 export function getLineDataset({ id, options, values }: Dataset, color: string, miniChartEl: MiniChartElement): RenderableDataset {
+	const hoverFunctions = getHoverFunctions(miniChartEl, id);
 	const datasetSVG = generateSVG("polyline", {
 		"fill": "none",
 		"stroke-width": ".6",
@@ -10,16 +11,17 @@ export function getLineDataset({ id, options, values }: Dataset, color: string, 
 		"stroke": options.color ? options.color : color,
 		"points": values.map((val, idx) => `${percentage(idx, values.length - 1)} ${100 - percentage(val, 100)}`).join(),
 	});
-	const hoverFunctions = getHoverFunctions(miniChartEl, id);
 	datasetSVG.onmouseenter = hoverFunctions.onEnter;
 	datasetSVG.onmouseleave = hoverFunctions.onLeave;
-	const datasetOptions = { ...options, color };
+	const legendEl = generateLegendElement({ ...options, color }, id)
+	legendEl.onmouseenter = hoverFunctions.onEnter;
+	legendEl.onmouseleave = hoverFunctions.onLeave;
 	return {
 		datasetSVG,
 		id,
-		options: datasetOptions,
+		options: { ...options, color },
 		hoverFunctions,
-		legendEl: generateLegendElement(datasetOptions, id),
+		legendEl,
 	};
 }
 
