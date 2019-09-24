@@ -7,3 +7,8 @@ export const DEFAULT_GRID_STYLES = Object.freeze({
 	"stroke-width": ".1",
 	"stroke": "gray",
 });
+
+export const DEFAULT_POLYLINE_STYLES = Object.freeze({
+	"fill": "none",
+	"stroke-width": ".6",
+});

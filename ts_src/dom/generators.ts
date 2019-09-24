@@ -1,8 +1,8 @@
-import { RenderableDataset, MiniChartElement, MiniChartConfig, LineCoordinates, AttributeKeyValuePair } from "../structs";
+import { RenderableDataset, MiniChartElement, MiniChartConfig, LineCoordinates, AttributeKeyValuePairs } from "../structs";
 import { DEFAULT_TICKS, DEFAULT_GRID_STYLES } from "../constants";
-import { percentage, getIndexArray } from "../utils";
+import { percentage, getIndexArray, attributifyLineCoordinates } from "../utils";
 
-export function generateSVG(el: string, attrs: AttributeKeyValuePair = {}) {
+export function generateSVG(el: string, attrs: AttributeKeyValuePairs = {}) {
 	const svg = document.createElementNS("http://www.w3.org/2000/svg", el);
 	Object.keys(attrs).forEach(key => svg.setAttribute(key, attrs[key]));
 	return svg;
@@ -45,31 +45,27 @@ export function generateMiniChartElement({ removeGrid, axis }: MiniChartConfig, 
 }
 
 function generateGrid(yTicks: number, xTicks: number) {
-	const xRelativePos = (index: number) => `${percentage(index + 1, xTicks)}`;
-	const generateRelativeGridXLine = (index: number) => generateGridXLine(index, xRelativePos);
-	const yRelativePos = (index: number) => `${percentage(index, yTicks)}`;
-	const generateRelativeGridYLine = (index: number) => generateGridYLine(index, yRelativePos);
 	return [
-		getIndexArray(xTicks).map(generateRelativeGridXLine),
-		getIndexArray(yTicks).map(generateRelativeGridYLine),
+		getIndexArray(xTicks).map(index => generateGridXLine(percentage(index + 1, xTicks))),
+		getIndexArray(yTicks).map(index => generateGridYLine(percentage(index, yTicks))),
 	];
 }
 
-function generateGridXLine(index: number, xCallBack: (index: number) => string) {
+function generateGridXLine(xPos: number) {
 	return generateGridLine({
-		x1: xCallBack(index),
-		y1: "0",
-		x2: xCallBack(index),
-		y2: "100",
+		x1: xPos,
+		y1: 0,
+		x2: xPos,
+		y2: 100,
 	});
 }
 
-function generateGridYLine(index: number, yCallback: (index: number) => string) {
+function generateGridYLine(yPos: number) {
 	return generateGridLine({
-		x1: "0",
-		y1: yCallback(index),
-		x2: "100",
-		y2: yCallback(index),
+		x1: 0,
+		y1: yPos,
+		x2: 100,
+		y2: yPos,
 	});
 }
 
@@ -77,11 +73,11 @@ function generateGridLine(lineCoordinates: LineCoordinates) {
 	return generateSVGLine(lineCoordinates, DEFAULT_GRID_STYLES);
 }
 
-function generateSVGLine(lineCoordinates: LineCoordinates, lineAttrs: AttributeKeyValuePair) {
-	return generateSVG("line", { ...lineCoordinates, ...lineAttrs });
+function generateSVGLine(lineCoordinates: LineCoordinates, attrs: AttributeKeyValuePairs = {}) {
+	return generateSVG("line", { ...attributifyLineCoordinates(lineCoordinates), ...attrs });
 }
 
-function generateElement(tag: string, attrs: AttributeKeyValuePair = {}) {
+function generateElement(tag: string, attrs: AttributeKeyValuePairs = {}) {
 	const el = document.createElement(tag);
 	Object.keys(attrs).forEach(key => el.setAttribute(key, attrs[key]));
 	return el;

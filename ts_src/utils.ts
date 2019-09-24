@@ -1,3 +1,5 @@
+import { AttributeKeyValuePairs, LineCoordinates } from "./structs";
+
 export function percentage(val: number, ofVal: number) {
 	return val / ofVal * 100;
 }
@@ -27,4 +29,13 @@ export function getUid() {
 
 export function getIndexArray(n: number) {
 	return [ ...Array(n) ].map((_, i) => i);
+}
+
+export function attributifyLineCoordinates({ x1, y1, x2, y2 }: LineCoordinates): AttributeKeyValuePairs {
+	return { x1: x1.toString(), y1: y1.toString(), x2: x2.toString(), y2: y2.toString() }
+}
+
+export function getSVGStrokeWidth(svg: SVGElement) {
+	const strokeWidth = svg.getAttribute("stroke-width");
+	return parseFloat(strokeWidth ? strokeWidth : "1");
 }
