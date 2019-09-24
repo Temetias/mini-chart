@@ -24,3 +24,7 @@ export function getInfiniteLoopper<T>(arr: T[]) {
 export function getUid() {
 	return `${(Date.now() * Math.random()).toFixed(0)}`;
 }
+
+export function getIndexArray(n: number) {
+	return [ ...Array(n) ].map((_, i) => i);
+}

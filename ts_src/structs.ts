@@ -66,3 +66,12 @@ export interface AxisConfiguration {
 export type AxisFormatterFunction = (val: number) => string;
 
 export type ColorLoopperFunction = (forwards?: boolean) => string;
+
+export type AttributeKeyValuePair = { [key: string]: string };
+
+export type LineCoordinates = {
+	x1: string;
+	y1: string;
+	x2: string;
+	y2: string;
+};

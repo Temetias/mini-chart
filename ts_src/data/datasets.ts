@@ -3,13 +3,13 @@ import { percentage } from "../utils";
 import { generateSVG, generateLegendElement } from "../dom/generators";
 
 export function getLineDataset({ id, options, values }: Dataset, color: string, miniChartEl: MiniChartElement): RenderableDataset {
-	const datasetSVG = generateSVG("polyline",
-		[ "fill", "none" ],
-		[ "stroke-width", ".6" ],
-		[ "class", id ],
-		[ "stroke", options.color ? options.color : color ],
-		[ "points", values.map((val, idx) => `${percentage(idx, values.length - 1)} ${100 - percentage(val, 100)}`).join() ]
-	);
+	const datasetSVG = generateSVG("polyline", {
+		"fill": "none",
+		"stroke-width": ".6",
+		"class": id,
+		"stroke": options.color ? options.color : color,
+		"points": values.map((val, idx) => `${percentage(idx, values.length - 1)} ${100 - percentage(val, 100)}`).join(),
+	});
 	const hoverFunctions = getHoverFunctions(miniChartEl, id);
 	datasetSVG.onmouseenter = hoverFunctions.onEnter;
 	datasetSVG.onmouseleave = hoverFunctions.onLeave;

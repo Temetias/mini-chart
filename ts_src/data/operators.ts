@@ -10,7 +10,7 @@ export function getDatasetInserter(render: RenderFunction, colorLoopper: ColorLo
 				renderableDataset = getLineDataset(dataset, colorLoopper(), render());
 				break;
 			case "bar":
-				//renderableDataset = getBarDataset(dataset);
+				//renderableDataset = getBarDataset( ... );
 				break;
 			default:
 				ERRORS.unknownDatasetType(dataset.options.type);

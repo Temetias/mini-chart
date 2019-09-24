@@ -12,8 +12,7 @@ export default function(config: MiniChartConfig): MiniChartInstance | null {
 		ERRORS.elementNotFound(config.selector);
 		return null;
 	}
-	const uid = `mini-id-${getUid()}`;
-	const miniChartEl = generateMiniChartElement(config, uid);
+	const miniChartEl = generateMiniChartElement(config, `mini-id-${getUid()}`);
 	mountEl.append(miniChartEl.rootEl);
 	const render = getRenderer(miniChartEl);
 	const colorLoopper = getInfiniteLoopper(config.colors ? config.colors : DEFAULT_COLORS);
