@@ -5,7 +5,8 @@
 	"private": true,
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"build": "npx webpack --config webpack.config.js"
+		"build": "npx webpack --config webpack.config.js",
+		"dev": "npx webpack --config webpack.config.js --watch"
 	},
 	"author": "Teemu Karppinen",
 	"license": "MIT",

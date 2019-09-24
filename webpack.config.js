@@ -21,6 +21,5 @@ module.exports = {
 		libraryExport: "default",
 		libraryTarget: "var",
 		library: "MiniChart"
-	},
-	watch: true
+	}
 };

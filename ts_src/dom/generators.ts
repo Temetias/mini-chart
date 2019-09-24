@@ -8,7 +8,7 @@ export function generateSVG(el: string, ...attrs: [string, string][]) {
 	return svg;
 }
 
-export function generateLegendElement(options: RenderableDataset["options"], id: RenderableDataset["id"]) {
+export function generateLegendElement(options: RenderableDataset["options"], id: string) {
 	const root = generateElement("div",
 		[ "class", id ],
 		[ "style", "display:flex;" ],
