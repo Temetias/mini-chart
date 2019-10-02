@@ -1,6 +1,6 @@
 import { Instance, DatasetParams, Dataset, Config } from "../shapes/structs";
 import { generateDatasetSVG, generateLegendEl } from "./generators";
-import { setClassToEls, setElementAttrs } from "../utils/dom";
+import { setClassToEls } from "../utils/dom";
 import { getFromLoopedIndex, maxFromArrays, percentage } from "../utils/math";
 import { DEFAULT_COLORS } from "../shapes/constants";
 import { curry } from "../utils/functional";
@@ -11,7 +11,7 @@ export function handleDatasetInsert({ config, data }: Instance, datasetParams: D
 	const color = getDatasetColor({ config, data }, datasetParams);
 	const svg = generateDatasetSVG(datasetParams, color);
 	const legend = generateLegendEl(datasetParams, color);
-	const polylinePointMapper = curry(mapPolylinePoints)(config.height)(highestValue);
+	const polylinePointMapper = curry(mapPolylinePoints)(config.width)(config.height)(highestValue);
 	const newDataset: Dataset = { ...datasetParams, color, svg, legend,
 		hovers: {
 			enter: () => setClassToEls("hover", [ svg, legend.wrap ]),
@@ -53,9 +53,10 @@ export function handleReConfiguration({ data }: Instance, config: Config) {
 	return { config, data };
 }
 
-function mapPolylinePoints(values: number[], highestValue: number, maxY: number) {
+function mapPolylinePoints(values: number[], highestValue: number, maxY: number, maxX: number) {
 	const yMultiplier = maxY / 100;
+	const xMultiplier = maxX / 100;
 	return values.map((val, idx) =>
-		`${percentage(idx, values.length - 1)} ${percentage(highestValue - val, highestValue) * yMultiplier}`
+		`${percentage(idx, values.length - 1) * xMultiplier} ${percentage(highestValue - val, highestValue) * yMultiplier}`
 	).join();
 }
