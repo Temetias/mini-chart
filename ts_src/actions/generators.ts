@@ -1,7 +1,6 @@
 import { Config, RenderContext, DatasetParams, Dataset } from "../shapes/structs";
 import { generateHTML, generateSVG, appendTo } from "../utils/dom";
 import { DEFAULT_POLYLINE_STYLES } from "../shapes/constants";
-import { percentage } from "../utils/math";
 
 export function generateRootEl({ width, height }: Config): RenderContext {
 	const root = generateHTML("div");
@@ -14,12 +13,10 @@ export function generateRootEl({ width, height }: Config): RenderContext {
 	return { root, legend, svg }
 }
 
-export function generateDatasetSVG({ type, values }: DatasetParams, stroke: Dataset["color"], maxY: number) {
+export function generateDatasetSVG({ type }: DatasetParams, stroke: Dataset["color"]) {
 	switch (type) {
 		case "line":
-			return generateSVG("polyline", { stroke, ...DEFAULT_POLYLINE_STYLES,
-				"points": generateDatasetPolylinePoints(values, maxY)
-			});
+			return generateSVG("polyline", { stroke, ...DEFAULT_POLYLINE_STYLES });
 		case "bar":
 			// TODO
 			return generateSVG("polyline", { stroke });
@@ -37,8 +34,4 @@ export function generateLegendEl({ name }: DatasetParams, color: Dataset["color"
 	el.wrap.appendChild(el.icon);
 	el.span.textContent = name;
 	return el;
-}
-
-function generateDatasetPolylinePoints(values: number[], maxY: number) {
-	return values.map((val, idx) => `${percentage(idx, values.length - 1)} ${percentage(val, maxY)}`).join();
 }

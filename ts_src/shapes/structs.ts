@@ -17,6 +17,7 @@ export interface DatasetParams {
 export type Dataset = DatasetParams & {
 	color: string;
 	svg: SVGElement;
+	renderableValues: string;
 	legend: LegendElement
 	hovers: {
 		enter: HoverFunction;

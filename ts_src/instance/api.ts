@@ -1,7 +1,7 @@
 import { Config, DatasetParams, Instance, Dataset, RenderContext, State } from "../shapes/structs";
 import { initState } from "./state";
 import { handleDatasetInsert, handleDatasetRemoval, handleClear, handleReConfiguration } from "../actions/mutations";
-import { clear, appendTo, findDOMElement, generateHTML } from "../utils/dom";
+import { clear, appendTo, findDOMElement, setElementAttrs } from "../utils/dom";
 import { compose, curry } from "../utils/functional";
 import { generateRootEl } from "../actions/generators";
 import { ERRORS } from "../actions/errors";
@@ -47,6 +47,7 @@ function render(state: State<Instance>, context: RenderContext) {
 	};
 	appendTo(root, [ svg, legend ]);
 	state.get().data.forEach(dataset => {
+		setElementAttrs(dataset.svg, { points: dataset.renderableValues });
 		svg.appendChild(dataset.svg);
 		legend.appendChild(dataset.legend.wrap);
 	});
