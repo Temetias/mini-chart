@@ -4,6 +4,7 @@ import { setClassToEls, setElementAttrs } from "../utils/dom";
 import { getFromLoopedIndex, maxFromArrays, percentage } from "../utils/math";
 import { DEFAULT_COLORS } from "../shapes/constants";
 import { curry } from "../utils/functional";
+import { WARNINGS } from "./errors";
 
 export function handleDatasetInsert({ config, data }: Instance, datasetParams: DatasetParams) {
 	const highestValue = maxFromArrays([ datasetParams.values, ...data.map(dataset => dataset.values) ]);
@@ -37,7 +38,11 @@ function getDatasetColor({ config, data }: Instance, datasetParams: DatasetParam
 }
 
 export function handleDatasetRemoval({ config, data }: Instance, name: Dataset["name"]) {
-	return { config, data: data.filter(dataset => dataset.name !== name) };
+	const filteredData = data.filter(dataset => dataset.name !== name);
+	if (filteredData.length === data.length) {
+		WARNINGS.failedDatasetRemoval(name);
+	}
+	return { config, data: filteredData };
 }
 
 export function handleClear({ config }: Instance) {
