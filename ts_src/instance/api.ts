@@ -7,9 +7,9 @@ import { generateRootEl, generateGrid } from "../actions/generators";
 import { ERRORS } from "../actions/errors";
 
 export default function(config: Config, data: Dataset[] = []) {
-	let state = initState<Instance>({ config, data }); // Closure over the main state of the application.
-	const renderOnContext = compose(curry(render), generateRootEl)(config); // Generate renderer on current context.
-	const mountPoint = findDOMElement(config.selector);
+	let state              = initState<Instance>({ config, data }); // Closure over the main state of the application.
+	const renderOnContext  = compose(curry(render), generateRootEl)(config); // Generate renderer on current context.
+	const mountPoint       = findDOMElement(config.selector);
 	if (!mountPoint) {
 		ERRORS.elementNotFound(config.selector);
 		return;
