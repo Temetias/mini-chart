@@ -1,9 +1,9 @@
 import { Config, DatasetParams, Instance, Dataset, RenderContext, State } from "../shapes/structs";
-import { initState } from "./state";
+import { initState } from "../utils/state";
 import { handleDatasetInsert, handleDatasetRemoval, handleClear, handleReConfiguration } from "../actions/mutations";
 import { clear, appendTo, findDOMElement, setElementAttrs } from "../utils/dom";
 import { compose, curry } from "../utils/functional";
-import { generateRootEl } from "../actions/generators";
+import { generateRootEl, generateGrid } from "../actions/generators";
 import { ERRORS } from "../actions/errors";
 
 export default function(config: Config, data: Dataset[] = []) {
@@ -45,6 +45,7 @@ function render(state: State<Instance>, context: RenderContext) {
 		legend: clear(context.legend),
 		root: clear(context.root),
 	};
+	appendTo(svg, [ ...generateGrid(state) ]);
 	appendTo(root, [ svg, legend ]);
 	state.get().data.forEach(dataset => {
 		setElementAttrs(dataset.svg, { points: dataset.renderableValues });

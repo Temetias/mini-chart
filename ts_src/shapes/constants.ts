@@ -12,3 +12,9 @@ export const DEFAULT_POLYLINE_STYLES = Object.freeze({
 	"fill": "none",
 	"stroke-width": ".6",
 });
+
+export const DEFAULT_TICK_STYLES = Object.freeze({
+	"fill": "none",
+	"stroke": "gray",
+	"stroke-width": ".1",
+});
