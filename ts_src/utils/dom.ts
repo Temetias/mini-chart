@@ -1,6 +1,6 @@
 import { KeyValuePairs } from "../shapes/structs";
 
-export function findDOMElement(selector: string) {
+export function findDOMElement(selector: string): Element | null {
 	switch (selector.charAt(0)) {
 		case "#":
 			return document.getElementById(selector.substr(1));
@@ -13,22 +13,22 @@ export function findDOMElement(selector: string) {
 	}
 }
 
-export function generateHTML(tag: string, attrs: KeyValuePairs<string> = {}) {
+export function generateHTML(tag: string, attrs: KeyValuePairs<string> = {}): HTMLElement {
 	const el = document.createElement(tag)
 	return setElementAttrs(el, attrs) as HTMLElement;
 }
 
-export function generateSVG(tag: string, attrs: KeyValuePairs<string> = {}) {
+export function generateSVG(tag: string, attrs: KeyValuePairs<string> = {}): SVGElement {
 	const el = document.createElementNS("http://www.w3.org/2000/svg", tag);
 	return setElementAttrs(el, attrs) as SVGElement;
 }
 
-export function setElementAttrs(el: Element, attrs: KeyValuePairs<string>) {
+export function setElementAttrs<T extends Element>(el: T, attrs: KeyValuePairs<string>): T {
 	Object.keys(attrs).forEach(key => el.setAttribute(key, attrs[key]));
 	return el;
 }
 
-export function appendTo(el: Element, children: Element[]) {
+export function appendTo<T extends Element>(el: T, children: Element[]): T {
 	children.forEach(child => el.appendChild(child));
 	return el;
 }
@@ -40,6 +40,6 @@ export function clear<T extends Element>(el: T) {
 	return el;
 }
 
-export function setClassToEls(className: string, els: Element[]) {
+export function setClassToEls(className: string, els: Element[]): void {
 	els.forEach(el => el.setAttribute("class", className));
 }

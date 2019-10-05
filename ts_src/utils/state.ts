@@ -3,10 +3,10 @@ import { State } from "../shapes/structs";
 
 export function initState<T>(state: T): State<T> {
 	return {
-		get() {
+		get(): T {
 			return Object.assign({}, state);
 		},
-		mutate(action: Action<T>) {
+		mutate(action: Action<T>): State<T> {
 			return initState(action(Object.assign({}, state)));
 		},
 	};
