@@ -7,7 +7,7 @@ export function initState<T>(state: T): State<T> {
 			return Object.assign({}, state);
 		},
 		mutate(action: Action<T>) {
-			return initState(action(state));
+			return initState(action(Object.assign({}, state)));
 		},
 	};
 };

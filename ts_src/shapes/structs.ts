@@ -40,6 +40,7 @@ export interface ConfigOptions {
 		y: Partial<AxisConfig>;
 	};
 	colors: string[];
+	removeGrid: boolean;
 };
 
 export interface AxisConfig {

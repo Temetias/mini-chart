@@ -1,7 +1,7 @@
 import { Config, RenderContext, DatasetParams, Dataset, AxisConfig, Instance, State } from "../shapes/structs";
 import { generateHTML, generateSVG, appendTo } from "../utils/dom";
-import { DEFAULT_POLYLINE_STYLES, DEFAULT_TICK_STYLES } from "../shapes/constants";
-import { maxFromArrays, getIndexArray, percentage } from "../utils/math";
+import { DEFAULT_POLYLINE_STYLES, DEFAULT_TICK_STYLES, DEFAULT_TICKS } from "../shapes/constants";
+import { getIndexArray } from "../utils/math";
 
 export function generateRootEl({ width, height }: Config): RenderContext {
 	const root = generateHTML("div");
@@ -36,39 +36,31 @@ export function generateLegendEl({ name }: DatasetParams, color: Dataset["color"
 
 export function generateGrid(state: State<Instance>) {
 	const axisConfig = state.get().config.axis;
-	if (!axisConfig) {
+	if (state.get().config.removeGrid) {
 		return [];
 	}
+	const xTicks = axisConfig && axisConfig.x && axisConfig.x.ticks ? axisConfig.x.ticks : DEFAULT_TICKS;
+	const yTicks = axisConfig && axisConfig.y && axisConfig.y.ticks ? axisConfig.y.ticks : DEFAULT_TICKS;
 	return [
-		...generateHorizontalTicks(axisConfig.y, state.get().config.width, state.get().config.height),
-		...generateVerticalTicks(axisConfig.x, state.get().config.width, state.get().config.height),
+		...generateHorizontalTicks(yTicks, state.get().config.width, state.get().config.height),
+		...generateVerticalTicks(xTicks, state.get().config.width, state.get().config.height),
 	]
 }
 
-
-function generateVerticalTicks(xConfig: Partial<AxisConfig>, width: number, height: number) {
-	if (!xConfig || !xConfig.ticks) {
-		return [];
-	}
-	return getIndexArray(xConfig.ticks).map(n => generateSVG("line", { ...DEFAULT_TICK_STYLES,
-		x1: `${n / (getIndexArray(xConfig.ticks!).length - 1) * width}`,
+function generateVerticalTicks(xTicks: number, width: number, height: number) {
+	return getIndexArray(xTicks).map(n => generateSVG("line", { ...DEFAULT_TICK_STYLES,
+		x1: `${n / (getIndexArray(xTicks).length - 1) * width}`,
 		y1: "0",
-		x2: `${n / (getIndexArray(xConfig.ticks!).length - 1) * width}`,
+		x2: `${n / (getIndexArray(xTicks).length - 1) * width}`,
 		y2: height.toString(),
 	}));
 }
 
-function generateHorizontalTicks(yConfig: Partial<AxisConfig>, width: number, height: number) {
-	if (!yConfig || !yConfig.ticks) {
-		return [];
-	}
-
-	// TODO: texts
-
-	return getIndexArray(yConfig.ticks).map(n => generateSVG("line", { ...DEFAULT_TICK_STYLES,
+function generateHorizontalTicks(yTicks: number, width: number, height: number) {
+	return getIndexArray(yTicks).map(n => generateSVG("line", { ...DEFAULT_TICK_STYLES,
 		x1: "0",
-		y1: `${n / (getIndexArray(yConfig.ticks!).length - 1) * height}`,
+		y1: `${n / (getIndexArray(yTicks).length - 1) * height}`,
 		x2: width.toString(),
-		y2: `${n / (getIndexArray(yConfig.ticks!).length - 1) * height}`,
+		y2: `${n / (getIndexArray(yTicks).length - 1) * height}`,
 	}));
 }
