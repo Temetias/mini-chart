@@ -35,12 +35,12 @@ export function generateLegendEl({ name }: DatasetParams, color: Dataset["color"
 }
 
 export function generateGrid(state: State<Instance>): SVGElement[] {
-	const axisConfig: Config["axis"] = state.get().config.axis;
 	if (state.get().config.removeGrid) {
 		return [];
 	}
-	const xTicks: number = axisConfig && axisConfig.x && axisConfig.x.ticks ? axisConfig.x.ticks : DEFAULT_TICKS;
-	const yTicks: number = axisConfig && axisConfig.y && axisConfig.y.ticks ? axisConfig.y.ticks : DEFAULT_TICKS;
+	const axisConfig: Config["axis"]  = state.get().config.axis;
+	const xTicks: number              = axisConfig && axisConfig.x && axisConfig.x.ticks ? axisConfig.x.ticks : DEFAULT_TICKS;
+	const yTicks: number              = axisConfig && axisConfig.y && axisConfig.y.ticks ? axisConfig.y.ticks : DEFAULT_TICKS;
 	return [
 		...generateHorizontalTicks(yTicks, state.get().config.width, state.get().config.height),
 		...generateVerticalTicks(xTicks, state.get().config.width, state.get().config.height),

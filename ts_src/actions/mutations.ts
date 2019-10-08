@@ -43,7 +43,10 @@ export function handleDatasetRemoval({ config, data }: Instance, name: Dataset["
 	if (filteredData.length === data.length) {
 		WARNINGS.failedDatasetRemoval(name);
 	}
-	return { config, data: filteredData };
+	const highestValue = maxFromArrays(filteredData.map(dataset => dataset.values));
+	const pointMapper: PointsMapper = curry(mapPolylinePoints)(config.width)(config.height)(highestValue);
+	const updatedData: Dataset[] = filteredData.map(dataset => ({ ...dataset, renderableValues: pointMapper(dataset.values) }));
+	return { config, data: updatedData };
 }
 
 export function handleClear({ config }: Instance): Instance {
